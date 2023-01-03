@@ -1,0 +1,20 @@
+{
+  "name": "smartmoney-oop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liepsneletech/smartmoney-oop.git"
+  },
+  "keywords": [],
+  "author": "Monika",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/liepsneletech/smartmoney-oop/issues"
+  },
+  "homepage": "https://github.com/liepsneletech/smartmoney-oop#readme"
+}
