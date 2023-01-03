@@ -1,0 +1,16 @@
+{
+  "name": "vendor/monika",
+  "description": "Mini e-bank project.",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "": "./"
+    }
+  },
+  "authors": [
+    {
+      "name": "Monika"
+    }
+  ],
+  "require": {}
+}
