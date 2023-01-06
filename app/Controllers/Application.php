@@ -81,6 +81,7 @@ class Application
     extract($params);
     require Application::$root . '/views/layouts/header.php';
     require Application::$root . "/views/pages/$page.php";
+    require Application::$root . '/views/layouts/footer.php';
     return ob_get_clean();
   }
 
