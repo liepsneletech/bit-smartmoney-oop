@@ -1,6 +1,15 @@
 <?php
 
-require __DIR__ . './inc/header.php';
+if (!file_exists(__DIR__ . '/users') || $arrOfSurnames = []) {
+  $arr = [];
+} else {
+  $arr = unserialize(file_get_contents(__DIR__ . '/users'));
+  foreach ($arr as $user) {
+    $arrOfSurnames[] = $user['surname'];
+  }
+  array_multisort($arrOfSurnames, SORT_ASC, $arr,);
+}
+
 ?>
 
 <main class="container">
@@ -47,5 +56,3 @@ require __DIR__ . './inc/header.php';
 
   </div>
 </main>
-
-<?php require __DIR__ . './inc/footer.php'; ?>

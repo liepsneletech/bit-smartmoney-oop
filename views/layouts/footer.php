@@ -1,21 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+<footer class="footer">
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smartmoney</title>
-  <link href="/node_modules/@fortawesome/all.min.css" rel="stylesheet">
-</head>
+  Visos teisės saugomos &copy; <?php echo date("Y"); ?>
 
-<body>
-
-  <footer class="footer">
-
-    Visos teisės saugomos &copy; <?php echo date("Y"); ?>
-
-  </footer>
+</footer>
 
 </body>
 
