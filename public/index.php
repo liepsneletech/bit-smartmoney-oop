@@ -3,7 +3,7 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use app\Controllers\Application;
-use App\Controllers\SitesController;
+use App\Controllers\Accounts;
 
 $app = new Application();
 
