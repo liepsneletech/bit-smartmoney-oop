@@ -2,7 +2,7 @@
 
 namespace app\Controllers;
 
-use app\Models\FileReader;
+use app\DB\FileReader;
 
 class Accounts
 {
@@ -61,7 +61,7 @@ class Accounts
     return Application::redirect('accounts');
   }
 
-  public function delete($id): string
+  public function delete($id)
   {
     self::$fileReader->delete($id);
     return Application::redirect('index');
