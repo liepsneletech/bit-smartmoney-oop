@@ -1,13 +1,13 @@
 <?php
 
-if (!file_exists(__DIR__ . '/users') || $arrOfSurnames = []) {
+if (!file_exists('../app/DB/users') || $arrOfSurnames = []) {
   $arr = [];
 } else {
-  $arr = unserialize(file_get_contents(__DIR__ . '/users'));
+  $arr = unserialize(file_get_contents('../app/DB/users'));
   foreach ($arr as $user) {
     $arrOfSurnames[] = $user['surname'];
   }
-  array_multisort($arrOfSurnames, SORT_ASC, $arr,);
+  array_multisort($arrOfSurnames, SORT_ASC, $arr);
 }
 
 ?>
@@ -23,8 +23,8 @@ if (!file_exists(__DIR__ . '/users') || $arrOfSurnames = []) {
     <?= isset($successWithdraw) ? "<p class='success-green'>$successWithdraw</p>" : '' ?>
 
     <div>
-      <?php foreach ($arr as $user) : ?>
 
+      <?php foreach ($arr as $user) : ?>
         <div class="account-info-box">
           <p class="id-number">&#35;<?= $user['id'] ?></p>
           <p class="full-name"><i class="fa-solid fa-user-large person-icon"></i>
@@ -37,12 +37,12 @@ if (!file_exists(__DIR__ . '/users') || $arrOfSurnames = []) {
           <div class="accounts-right-box">
             <p class="balance"><?= number_format($user['balance'], 2, ',', ' ') ?> &euro;</p>
             <div class="accounts-btns">
-              <a href="http://localhost/smartmoney/add.php?id=<?= $user['id'] ?>" class="accounts-btn btn-green"><i class="fa-solid fa-plus"></i><i class="fa-solid fa-circle-dollar"></i></a>
+              <a href="/add/<?= $user['id']?>" class="accounts-btn btn-green"><i class="fa-solid fa-plus"></i><i class="fa-solid fa-circle-dollar"></i></a>
 
-              <a href="http://localhost/smartmoney/withdrawal.php?id=<?= $user['id'] ?>" class="accounts-btn
+              <a href="/withdraw/<?= $user['id'] ?>" class="accounts-btn
             btn-yellow"><i class="fa-solid fa-minus"></i></a>
 
-              <form action="http://localhost/smartmoney/delete.php?id=<?= $user['id'] ?>" method="post">
+              <form action="/delete/<?= $user['id'] ?>" method="post">
                 <button type="submit" class="accounts-btn btn-red"><i class="fa-solid fa-x"></i></button>
               </form>
             </div>

@@ -2,20 +2,26 @@
 
 namespace app\Controllers;
 
+use app\DB\FileReader;
+
 class Application
 {
   public static string $root;
   public static Application $app;
   public static Accounts $accounts;
+  public static FileReader $usersFileReader;
+  public static FileReader $adminsFileReader;
 
   public function __construct(string $root)
   {
     self::$root = $root;
     self::$app = $this;
     self::$accounts = new Accounts();
+    self::$usersFileReader = new FileReader('users');
+    self::$adminsFileReader = new FileReader('admins');
   }
 
-  public function resolve()
+  public function resolve() : ?string
   {
     $url = explode('/', $_SERVER['REQUEST_URI']);
     array_shift($url);
@@ -23,7 +29,7 @@ class Application
   }
 
 
-  private static function router(array $url)
+  private static function router(array $url) : null
   {
     $method = $_SERVER['REQUEST_METHOD'];
 
@@ -47,23 +53,23 @@ class Application
       return self::$accounts->index();
     }
 
-    if ($url[0] === 'create-acc' && count($url) === 1 && $method === 'GET') {
+    if ($url[0] === 'create-account' && count($url) === 1 && $method === 'GET') {
       return self::$accounts->create();
     }
 
-    if ($url[0] === 'create-acc' && $url[1] === 'save' && count($url) == 2 && $method == 'POST') {
+    if ($url[0] === 'create-account' && $url[1] === 'save' && count($url) == 2 && $method == 'POST') {
       return self::$accounts->save();
     }
 
-    if ($url[0] === 'add-money' && count($url) == 2 && $method == 'GET') {
+    if ($url[0] === 'add' && count($url) == 2 && $method == 'GET') {
       return self::$accounts->add($url[1]);
     }
 
-    if ($url[0] === 'withdraw-money' && count($url) == 2 && $method == 'GET') {
+    if ($url[0] === 'withdraw' && count($url) == 2 && $method == 'GET') {
       return self::$accounts->withdraw($url[1]);
     }
 
-    if (($url[0] === 'add-money' || $url[0] === 'withdraw-money') && $url[1] == 'update' && count($url) == 3 && $method == 'POST') {
+    if (($url[0] === 'add' || $url[0] === 'withdraw') && $url[1] == 'update' && count($url) == 3 && $method == 'POST') {
       return self::$accounts->update($url[2]);
     }
 
@@ -85,7 +91,7 @@ class Application
     return ob_get_clean();
   }
 
-  public static function redirect($url)
+  public static function redirect($url) : null
   {
     header('Location: ' . self::$root . $url);
     return null;

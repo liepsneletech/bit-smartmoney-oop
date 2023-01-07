@@ -16,23 +16,23 @@ class Accounts
 
   public function login(): string
   {
-    $pageTitle = 'Prisijungimas';
-    return Application::renderView('login', compact('pageTitle'));
+    $currentPage = 'Prisijungimas';
+    return Application::renderView('login', compact('currentPage'));
   }
 
   public function index(): string
   {
     $users = self::$fileReader->showAll();
-    $pageTitle = 'Sąskaitų sąrašas';
+    $currentPage = 'Sąskaitų sąrašas';
     $active = 'index';
-    return Application::renderView('index', compact('users', 'pageTitle', 'active'));
+    return Application::renderView('index', compact('users', 'currentPage', 'active'));
   }
 
   public function create(): string
   {
-    $pageTitle = 'Nauja sąskaita';
-    $active = 'create-acc';
-    return Application::renderView('create-acc', compact('pageTitle', 'active'));
+    $currentPage = 'Sąskaitos kūrimas';
+    $active = 'create-account';
+    return Application::renderView('create-account', compact('currentPage', 'active'));
   }
 
   public function save()
@@ -44,15 +44,15 @@ class Accounts
   public function add($id): string
   {
     $user = self::$fileReader->show($id);
-    $pageTitle = 'Pridėti lėšas';
-    return Application::renderView('add-money', compact('pageTitle', 'user'));
+    $currentPage = 'Lėšų įnešimas';
+    return Application::renderView('add', compact('currentPage', 'user'));
   }
 
   public function withdraw($id): string
   {
     $user = self::$fileReader->show($id);
-    $pageTitle = 'Nuskaičiuoti lėšas';
-    return Application::renderView('withdraw-money', compact('pageTitle', 'user'));
+    $currentPage = 'Lėšų nuskaičiavimas';
+    return Application::renderView('withdraw', compact('currentPage', 'user'));
   }
 
   public function update($id)

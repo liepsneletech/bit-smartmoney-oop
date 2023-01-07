@@ -2,8 +2,6 @@
 
 namespace app\DB;
 
-use app\DB\Database;
-
 class FileReader implements DataBase
 {
 
