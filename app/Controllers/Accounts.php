@@ -63,29 +63,37 @@ class Accounts
 
     public function update($id)
     {
-        if (isset($_POST['balance'])) {
+        if (isset($_POST['balance-add'])) {
             $user = Application::$usersFileReader->show($id);
 
-            if (preg_match('/^(?:[0-9]*[.])?[0-9]+$/', $_POST['balance'])) {
-                $amount = (float)$_POST['balance'];
+            if (preg_match('/^(?:[0-9]*[.])?[0-9]+$/', $_POST['balance-add'])) {
+                $amount = (float)$_POST['balance-add'];
             } else {
                 return 'Negalima suma';
             }
+            if ($amount > 0) {
+                $user['balance'] = round($user['balance'] + $amount, 2);
+
+                Application::$usersFileReader->update($id, $user);
+                return Application::redirect('/accounts');
+            } else {
+                return 'Negalima pridėti sumos lygios nuliui.';
+            }
         }
 
-        if (isset($_POST['withdraw_amount'])) {
+        if (isset($_POST['balance-withdraw'])) {
             $user = Application::$usersFileReader->show($id);
 
-            if (preg_match('/^(?:[0-9]*[.])?[0-9]+$/', $_POST['withdraw_amount'])) {
-                $amount = (float)$_POST['withdraw_amount'];
+            if (preg_match('/^(?:[0-9]*[.])?[0-9]+$/', $_POST['balance-withdraw'])) {
+                $amount = (float)$_POST['balance-withdraw'];
             } else {
-                return 'Nevalidi suma';
+                return 'Negalima suma';
             }
 
-            if ($amount > $user['money']) {
-                return 'Suma viršija turimas lėšas';
+            if ($amount > $user['balance']) {
+                return 'Suma negali būti didesnė už turimas lėšas';
             } else if ($amount > 0) {
-                $user['money'] = round($user['money'] - $amount, 2);
+                $user['balance'] = round($user['balance'] - $amount, 2);
 
                 Application::$usersFileReader->update($id, $user);
                 return Application::redirect('/accounts');
@@ -95,11 +103,10 @@ class Accounts
         }
     }
 
-
     public function delete($id)
     {
         $user = Application::$usersFileReader->show($id);
-        if ($user['money'] == 0) {
+        if ($user['balance'] == 0) {
             Application::$usersFileReader->delete($id);
             return Application::redirect('/accounts');
         } else {

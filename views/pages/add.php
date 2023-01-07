@@ -8,7 +8,7 @@
             <p class="full-name"><i class="fa-solid fa-user-large person-icon"></i>
                 <?= $user['name'] . ' ' . $user['surname'] ?></p>
             <strong>Sąskaitos likutis: <?= number_format($user['balance'], 2, ',', ' ') ?> &euro;</strong>
-            <input type="text" name="balance" placeholder="Įrašykite sumą">
+            <input type="text" name="balance-add" placeholder="Įrašykite sumą">
             <button type="submit" class="btn-main btn-green" name="add">PATVIRTINTI</button>
             <div class="img-box"><img src="../../assets/img/add-money-pic.png" alt="Add money" class="add-money-pic">
             </div>
