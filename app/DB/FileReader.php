@@ -7,7 +7,6 @@ class FileReader implements DataBase
 
   private $data, $name;
 
-
   public function __construct($name)
   {
     $this->name = $name;
@@ -22,7 +21,6 @@ class FileReader implements DataBase
   {
     file_put_contents(__DIR__ . '/' . $this->name, serialize($this->data));
   }
-
 
   private function getId(): int
   {

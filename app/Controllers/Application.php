@@ -29,7 +29,7 @@ class Application
   }
 
 
-  private static function router(array $url) : null
+  private static function router(array $url)
   {
     $method = $_SERVER['REQUEST_METHOD'];
 
@@ -73,12 +73,12 @@ class Application
       return self::$accounts->update($url[2]);
     }
 
-    if ($url[0] === 'delete' && count($url) == 2 && $method == 'POST') {
+    if ($url[0] === 'delete' && preg_match('/^\d+$/',$url[1]) && count($url) == 2 && $method == 'POST') {
       return self::$accounts->delete($url[1]);
     }
 
 
-    return '404 NOT FOUND';
+      return self::$accounts->error();
   }
 
   public static function renderView(string $page, array $params = []): string
@@ -91,9 +91,9 @@ class Application
     return ob_get_clean();
   }
 
-  public static function redirect($url) : null
+  public static function redirect($url)
   {
-    header('Location: ' . self::$root . $url);
+    header('Location: '. $url);
     return null;
   }
 }

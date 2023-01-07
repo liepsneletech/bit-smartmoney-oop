@@ -58,7 +58,7 @@ if (isset($_GET['error'])) {
           <input type="password" id="pass" placeholder="Įrašykite slaptažodį" name="pass">
         </div>
 
-        <button type="submit" class="btn-main btn-green btn-submit">Prisijungti</button>
+        <button type="submit" class="btn-main btn-green">Prisijungti</button>
       </form>
 
       <p class="bank-name">SmartMoney</p>
