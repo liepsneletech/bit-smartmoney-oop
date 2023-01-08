@@ -23,8 +23,7 @@ class AuthController
                 }
             }
         }
-
+        $_SESSION['error'] = 'Neteisingas el. paštas arba slaptažodis!';
         return Application::redirect('/login');
-
     }
 }

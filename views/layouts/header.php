@@ -24,10 +24,10 @@
             <a class="nav-link <?= $active === 'index' ? 'active' : '' ?>" href="/accounts">Sąskaitos</a>
             <a class="nav-link <?= $active === 'create-account' ? 'active' : '' ?>" href="/create-account">Sukurti
                 sąskaitą</a>
-            <form method="post" action="/logout" class="d-inline-block">
-                <button type="submit" class="nav-link logout-btn">Atsijungti<i
-                            class="fa-solid fa-arrow-right-from-bracket logout-icon"></i></button>
-            </form>
+
+            <a href="/logout" class="nav-link logout-btn">Atsijungti<i
+                        class="fa-solid fa-arrow-right-from-bracket logout-icon"></i></a>
+
         </nav>
     </div>
 

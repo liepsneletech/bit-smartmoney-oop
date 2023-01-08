@@ -50,10 +50,6 @@ class Application
             return self::$authentification->logout();
         }
 
-        if ($url[0] === 'logout' && count($url) === 1 && $method === 'POST') {
-            return self::$authentification->logout();
-        }
-
         if ($url[0] === 'accounts' && count($url) === 1 && $method === 'GET') {
             return self::$accounts->index();
         }
