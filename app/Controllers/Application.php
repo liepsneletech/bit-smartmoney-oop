@@ -9,6 +9,7 @@ class Application
     public static string $root;
     public static Application $app;
     public static Accounts $accounts;
+    public static AuthController $authentification;
     public static FileReader $usersFileReader;
     public static FileReader $adminsFileReader;
 
@@ -17,6 +18,7 @@ class Application
         self::$root = $root;
         self::$app = $this;
         self::$accounts = new Accounts();
+        self::$authentification = new AuthController();
         self::$usersFileReader = new FileReader('users');
         self::$adminsFileReader = new FileReader('admins');
     }
@@ -28,28 +30,27 @@ class Application
         return self::router($url);
     }
 
-
     private static function router(array $url)
     {
         $method = $_SERVER['REQUEST_METHOD'];
-
-        if ($method == 'OPTIONS') {
-            header('Access-Control-Allow-Origin: *');
-            header('Access-Control-Allow-Methods: OPTIONS, GET, POST, DELETE, PUT');
-            header("Access-Control-Allow-Headers: Authorization, Content-Type, X-Requested-With");
-            header('Content-Type: application/json');
-            return null;
-        }
 
         if (!$url[0] && count($url) === 1 && $method === 'GET') {
             return self::$accounts->index();
         }
 
+        if ($url[0] === 'login' && count($url) === 1 && $method === 'POST') {
+            return self::$authentification->login();
+        }
+
         if ($url[0] === 'login' && count($url) === 1 && $method === 'GET') {
-            return self::$accounts->login();
+            return self::$authentification->login();
         }
 
         if ($url[0] === 'accounts' && count($url) === 1 && $method === 'GET') {
+            return self::$accounts->index();
+        }
+
+        if ($url[0] === 'accounts' && count($url) === 1 && $method === 'POST') {
             return self::$accounts->index();
         }
 
@@ -76,7 +77,6 @@ class Application
         if ($url[0] === 'delete' && preg_match('/^\d+$/', $url[1]) && count($url) == 2 && $method == 'POST') {
             return self::$accounts->delete($url[1]);
         }
-
 
         return self::$accounts->error();
     }

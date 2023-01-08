@@ -2,27 +2,21 @@
 
 namespace app\Controllers;
 
-use app\DB\FileReader;
-
-session_start();
-
 class Accounts
 {
-    public function login(): string
-    {
-        $currentPage = 'Prisijungimas';
-        return Application::renderView('login', compact('currentPage'));
-    }
-
-    public function logout(): string
-    {
-        $currentPage = 'Prisijungimas';
-        return Application::renderView('login', compact('currentPage'));
-    }
-
     public function index(): string
     {
         $users = Application::$usersFileReader->showAll();
+
+        if (!isset($_SESSION['admin'])) {
+            $_SESSION['error'] = 'Neteisingas el. paštas arba slaptažodis!';
+            return Application::redirect('/login');
+        }
+
+        foreach ($users as $user) {
+            $arrOfSurnames[] = $user['surname'];
+        }
+        array_multisort($arrOfSurnames, SORT_ASC, $users);
         $currentPage = 'Sąskaitų sąrašas';
         $active = 'index';
         return Application::renderView('index', compact('users', 'currentPage', 'active'));
@@ -38,13 +32,32 @@ class Accounts
 
     public function save()
     {
+        $users = Application::$usersFileReader->showAll();
         $user = [
-            'name' => $_POST['name'],
-            'surname' => $_POST['surname'],
             'iban' => $_POST['iban'],
-            'personal-number' => $_POST['personal-number'],
             'balance' => 0
         ];
+
+        if (preg_match('/^([a-zA-ZąčęėįšųūžĄČĘĖĮŠŲŪŽ]+([\s]?[a-zA-ZąčęėįšųūžĄČĘĖĮŠŲŪŽ]+|[\']?[a-zA-ZąčęėįšųūžĄČĘĖĮŠŲŪŽ]*)){4,}$/', $_POST['name'])) {
+            $user['name'] = $_POST['name'];
+        } else {
+            $_SESSION['error-name'] = 'Vardas nėra validus.';
+            return Application::redirect('/create-account');
+        }
+        if (preg_match('/^([a-zA-ZąčęėįšųūžĄČĘĖĮŠŲŪŽ]+([\s]?[a-zA-ZąčęėįšųūžĄČĘĖĮŠŲŪŽ]+|[\']?[a-zA-ZąčęėįšųūžĄČĘĖĮŠŲŪŽ]*)){4,}$/', $_POST['surname'])) {
+            $user['surname'] = $_POST['surname'];
+        } else {
+            $_SESSION['error-surname'] = 'Pavardė nėra validi.';
+            return Application::redirect('/create-account');
+        }
+        if (preg_match('/^[1-6]\d{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])\d{4}$/', $_POST['personal-number']) &&
+            validatePersonalNum($users, $_POST['personal-number'])) {
+            $user['personal-number'] = $_POST['personal-number'];
+        } else {
+            $_SESSION['error-personal-number'] = 'Toks asmens kodas jau egzistuoja.';
+            return Application::redirect('/create-account');
+        }
+
         Application::$usersFileReader->create($user);
         $_SESSION['success-new-account'] = 'Sąskaita sėkmingai sukurta.';
         return Application::redirect('/accounts');
@@ -72,16 +85,17 @@ class Accounts
             if (preg_match('/^(?:[0-9]*[.])?[0-9]+$/', $_POST['balance-add'])) {
                 $amount = (float)$_POST['balance-add'];
             } else {
-                $_SESSION['amount-error'] = 'Įveskite validžią sumą.';
-                return null;
+                $_SESSION['error-amount'] = 'Įveskite validžią sumą.';
+                return Application::redirect("/add/$id");
             }
             if ($amount > 0) {
                 $user['balance'] = round($user['balance'] + $amount, 2);
-
+                $_SESSION['success-add'] = 'Sėkmingai pridėjote lėšų.';
                 Application::$usersFileReader->update($id, $user);
                 return Application::redirect('/accounts');
             } else {
-                return 'Negalima pridėti sumos lygios nuliui.';
+                $_SESSION['error-amount-add-zero'] = 'Negalima pridėti nulinės sumos.';
+                return Application::redirect("/add/$id");
             }
         }
 
@@ -91,18 +105,20 @@ class Accounts
             if (preg_match('/^(?:[0-9]*[.])?[0-9]+$/', $_POST['balance-withdraw'])) {
                 $amount = (float)$_POST['balance-withdraw'];
             } else {
-                return 'Įveskite validžią sumą.';
+                $_SESSION['error-amount'] = 'Įveskite validžią sumą';
+                return Application::redirect("/withdraw/$id");
             }
 
             if ($amount > $user['balance']) {
                 return 'Suma negali būti didesnė už turimas lėšas';
             } else if ($amount > 0) {
                 $user['balance'] = round($user['balance'] - $amount, 2);
-
+                $_SESSION['success-withdraw'] = 'Sėkmingai minusavote lėšas.';
                 Application::$usersFileReader->update($id, $user);
                 return Application::redirect('/accounts');
             } else {
-                return 'Negalima nuskaičiuoti nulinės sumos.';
+                $_SESSION['error-amount-add-zero'] = 'Negalima atimti nulinės sumos.';
+                return Application::redirect("/add/$id");
             }
         }
     }
@@ -119,7 +135,6 @@ class Accounts
             return Application::redirect('/accounts');
         }
     }
-
 
     public function error(): string
     {

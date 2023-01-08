@@ -1,15 +1,5 @@
 <?php
 
-if (!file_exists('../app/DB/users') || $arrOfSurnames = []) {
-    $arr = [];
-} else {
-    $arr = unserialize(file_get_contents('../app/DB/users'));
-    foreach ($arr as $user) {
-        $arrOfSurnames[] = $user['surname'];
-    }
-    array_multisort($arrOfSurnames, SORT_ASC, $arr);
-}
-
 if (isset($_SESSION['success-new-account'])) {
     $successNewAccount = $_SESSION['success-new-account'];
     unset($_SESSION['success-new-account']);
@@ -48,7 +38,7 @@ if (isset($_SESSION['success-withdraw'])) {
         <?= isset($successWithdraw) ? "<p class='success-green'>$successWithdraw</p>" : '' ?>
 
         <div>
-            <?php foreach ($arr as $user) : ?>
+            <?php foreach ($users as $user) : ?>
                 <div class="account-info-box">
                     <p class="id-number">&#35;<?= $user['id'] ?></p>
                     <p class="full-name"><i class="fa-solid fa-user-large person-icon"></i>

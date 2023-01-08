@@ -1,3 +1,17 @@
+<?php
+
+if (isset($_SESSION['error-amount'])) {
+    $errorAmount = $_SESSION['error-amount'];
+    unset($_SESSION['error-amount']);
+}
+
+if (isset($_SESSION['error-amount-add-zero'])) {
+    $errorAmount = $_SESSION['error-amount-add-zero'];
+    unset($_SESSION['error-amount-add-zero']);
+}
+
+?>
+
 <main class="container">
     <div class="main-inner">
         <h1 class="main-title">Įnešti lėšų į sąskaitą</h1>
