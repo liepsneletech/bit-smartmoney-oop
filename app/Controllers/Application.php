@@ -38,12 +38,20 @@ class Application
             return self::$accounts->index();
         }
 
+        if ($url[0] === 'login' && count($url) === 1 && $method === 'GET') {
+            return self::$authentification->login();
+        }
+
         if ($url[0] === 'login' && count($url) === 1 && $method === 'POST') {
             return self::$authentification->login();
         }
 
-        if ($url[0] === 'login' && count($url) === 1 && $method === 'GET') {
-            return self::$authentification->login();
+        if ($url[0] === 'logout' && count($url) === 1 && $method === 'GET') {
+            return self::$authentification->logout();
+        }
+
+        if ($url[0] === 'logout' && count($url) === 1 && $method === 'POST') {
+            return self::$authentification->logout();
         }
 
         if ($url[0] === 'accounts' && count($url) === 1 && $method === 'GET') {

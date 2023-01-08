@@ -13,7 +13,7 @@ if (isset($_SESSION['error'])) {
         <img src="./assets/img/logo-super-dark.png" alt="SmartMoney logo" class="login-logo">
 
 
-        <form class="login-form" action="/accounts" method="post">
+        <form class="login-form" action="/login" method="post">
 
             <div>
                 <input type="email" id="email" placeholder="Įrašykite el. paštą" name="email">

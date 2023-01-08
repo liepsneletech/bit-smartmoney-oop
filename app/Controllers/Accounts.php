@@ -8,11 +8,6 @@ class Accounts
     {
         $users = Application::$usersFileReader->showAll();
 
-        if (!isset($_SESSION['admin'])) {
-            $_SESSION['error'] = 'Neteisingas el. paštas arba slaptažodis!';
-            return Application::redirect('/login');
-        }
-
         foreach ($users as $user) {
             $arrOfSurnames[] = $user['surname'];
         }
