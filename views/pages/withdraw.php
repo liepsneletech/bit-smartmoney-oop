@@ -10,6 +10,11 @@ if (isset($_SESSION['error-amount-withdraw-zero'])) {
     unset($_SESSION['error-amount-withdraw-zero']);
 }
 
+if (isset($_SESSION['error-amount-withdraw-too-much'])) {
+    $errorAmount = $_SESSION['error-amount-withdraw-too-much'];
+    unset($_SESSION['error-amount-withdraw-too-much']);
+}
+
 ?>
 
 <main class="container ">

@@ -1,1 +1,1 @@
-a:1:{i:0;a:6:{s:2:"id";i:1;s:4:"name";s:5:"Agota";s:7:"surname";s:12:"Kaminskaitė";s:15:"personal-number";i:49007200000;s:4:"iban";s:22:"27 2249 7737 9136 5444";s:7:"balance";d:10;}}
+a:2:{i:0;a:6:{s:2:"id";i:1;s:4:"name";s:5:"Agota";s:7:"surname";s:12:"Kaminskaitė";s:15:"personal-number";i:49007200000;s:4:"iban";s:22:"27 2249 7737 9136 5444";s:7:"balance";d:790;}i:1;a:6:{s:4:"iban";s:25:"LT 97 0014 7022 0474 5072";s:7:"balance";i:0;s:4:"name";s:6:"Monika";s:7:"surname";s:11:"Levickaitė";s:15:"personal-number";s:11:"49007200330";s:2:"id";i:5;}}

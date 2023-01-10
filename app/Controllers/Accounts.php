@@ -111,8 +111,8 @@ class Accounts
             }
 
             if ($amount > $user['balance']) {
-                $_SESSION['error-amount-add-zero'] = 'Suma negali būti didesnė už turimas lėšas.';
-                return Application::redirect("/add/$id");
+                $_SESSION['error-amount-withdraw-too-much'] = 'Suma negali būti didesnė už lėšas.';
+                return Application::redirect("/withdraw/$id");
             } else if ($amount > 0) {
                 $user['balance'] = round($user['balance'] - $amount, 2);
                 $_SESSION['success-withdraw'] = 'Sėkmingai minusavote lėšas.';
