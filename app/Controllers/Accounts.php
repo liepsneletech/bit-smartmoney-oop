@@ -61,6 +61,9 @@ class Accounts
     public function add($id): string
     {
         $user = Application::$usersFileReader->show($id);
+        if (!$user) {
+            return $this->error();
+        }
         $currentPage = 'Pridėti lėšas';
         return Application::renderView('add', compact('currentPage', 'user'));
     }
@@ -68,6 +71,9 @@ class Accounts
     public function withdraw($id): string
     {
         $user = Application::$usersFileReader->show($id);
+        if (!$user) {
+            return $this->error();
+        }
         $currentPage = 'Lėšų nuskaičiavimas';
         return Application::renderView('withdraw', compact('currentPage', 'user'));
     }
@@ -105,7 +111,8 @@ class Accounts
             }
 
             if ($amount > $user['balance']) {
-                return 'Suma negali būti didesnė už turimas lėšas';
+                $_SESSION['error-amount-add-zero'] = 'Suma negali būti didesnė už turimas lėšas.';
+                return Application::redirect("/add/$id");
             } else if ($amount > 0) {
                 $user['balance'] = round($user['balance'] - $amount, 2);
                 $_SESSION['success-withdraw'] = 'Sėkmingai minusavote lėšas.';

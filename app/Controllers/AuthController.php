@@ -8,22 +8,32 @@ class AuthController
     public function login(): string
     {
         $currentPage = 'Prisijungimas';
-        return Application::renderView('login', compact('currentPage'));
+        $admins = Application::$adminsFileReader->showAll();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            return Application::renderView('login', compact('currentPage'));
+        }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            foreach ($admins as $admin) {
+                if ($admin['email'] === $_POST['email']) {
+                    if ($admin['pass'] === md5($_POST['pass'])) {
+                        $_SESSION['admin'] = $admin;
+                    }
+                } else {
+                    $_SESSION['error'] = 'Neteisingas el. paštas arba slaptažodis!';
+                }
+            }
+        }
+        return Application::redirect('/accounts');
     }
 
     public function logout(): string
     {
-        $admins = Application::$adminsFileReader->showAll();
-
-        foreach ($admins as $admin) {
-            if ($admin['email'] === $_POST['email']) {
-                if ($admin['pass'] === md5($_POST['pass'])) {
-                    $_SESSION['admin'] = $admin;
-                    Application::redirect('/accounts');
-                }
-            }
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            session_unset();
+            session_destroy();
+            return Application::redirect('/login');
         }
-        $_SESSION['error'] = 'Neteisingas el. paštas arba slaptažodis!';
-        return Application::redirect('/login');
+
     }
 }
