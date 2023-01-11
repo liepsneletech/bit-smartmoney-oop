@@ -248,6 +248,17 @@ strong {
   color: #fff;
 }
 
+.btn-blue {
+  padding: 0.8em 1.5em !important;
+  background: #104577;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23093010' fill-opacity='0.1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+.btn-blue:hover {
+  background-color: #74b816;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23093010' fill-opacity='0.1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+}
+
 input {
   font-family: Poppins, sans-serif;
   display: block;
@@ -470,6 +481,21 @@ input {
   .money-pic {
     display: inline-block;
   }
+}
+
+.error-block {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #0b2d4d;
+}
+
+.error-box {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
 }
 
 /* ALERTS */

@@ -2,13 +2,10 @@
 
 namespace app\DB;
 
-use app\DB\Database;
-
 class FileReader implements DataBase
 {
 
   private $data, $name;
-
 
   public function __construct($name)
   {
@@ -24,7 +21,6 @@ class FileReader implements DataBase
   {
     file_put_contents(__DIR__ . '/' . $this->name, serialize($this->data));
   }
-
 
   private function getId(): int
   {
